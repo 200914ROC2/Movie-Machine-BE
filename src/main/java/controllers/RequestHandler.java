@@ -1,0 +1,48 @@
+package controllers;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject; 
+
+
+import delegate.FrontControllerDelegate;
+import delegate.MovieDelegate;
+
+
+public class RequestHandler {
+	private Map<String, FrontControllerDelegate> delegateMap;
+
+	{
+		delegateMap = new HashMap<String, FrontControllerDelegate>();
+		delegateMap.put("movie", new MovieDelegate());  		
+	}
+
+	public FrontControllerDelegate handle(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+
+		if ("OPTIONS".equals(req.getMethod())) {
+			return (r1, r2) -> { 
+			};
+		}
+		StringBuilder uri_sb = new StringBuilder(req.getRequestURI());
+	
+		uri_sb.replace(0, req.getContextPath().length() + 1, "");
+		
+		if (uri_sb.indexOf("/") != -1) {
+			req.setAttribute("path", uri_sb.substring(uri_sb.indexOf("/") + 1));
+			uri_sb.replace(uri_sb.indexOf("/"), uri_sb.length(), "");
+		}
+		 
+		return delegateMap.get(uri_sb.toString());
+
+	}
+
+	
+}
