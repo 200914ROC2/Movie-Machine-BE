@@ -10,7 +10,7 @@
 	<servlet-mapping>
 		<servlet-name>FrontController</servlet-name>
 		<url-pattern>/</url-pattern> 
-	</servlet-mapping> 
+	</servlet-mapping>  
 
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
