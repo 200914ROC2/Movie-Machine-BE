@@ -76,7 +76,7 @@ public class Utility {
 	}
 	
 	public static void PrintJson(HttpServletResponse resp, String message) {
-		JSONObject obj = new JSONObject();		
+		JSONObject obj = new JSONObject();	 	
 		obj.put("message", message);
 		obj.toString();
 		PrintWriter out;

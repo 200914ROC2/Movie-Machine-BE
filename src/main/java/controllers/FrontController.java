@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
+
 import delegate.FrontControllerDelegate;
 import utilities.Utility;
 
@@ -32,8 +34,11 @@ public class FrontController extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		Utility.PrintJson(response, "GET TEST");   
-		//process(request,response);
+		//JSONObject obj = new JSONObject();	  	
+	//	obj.put("message", "test"); 
+		//Utility.PrintJson(response, "GET TEST");   
+		//System.out.println("--------------TEST-------------------------"); 
+		process(request,response);  
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		

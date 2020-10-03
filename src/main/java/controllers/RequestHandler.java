@@ -12,23 +12,23 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject; 
 
 
-import delegate.FrontControllerDelegate;
-import delegate.MovieDelegate;
+import delegate.FrontControllerDelegate; 
+import delegate.UserDelegate;
 
 
 public class RequestHandler {
 	private Map<String, FrontControllerDelegate> delegateMap;
 
 	{
-		delegateMap = new HashMap<String, FrontControllerDelegate>();
-		delegateMap.put("movie", new MovieDelegate());  		
+		delegateMap = new HashMap<String, FrontControllerDelegate>();		
+		delegateMap.put("user", new UserDelegate()); 	 	 
 	}
 
 	public FrontControllerDelegate handle(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
 		if ("OPTIONS".equals(req.getMethod())) {
-			return (r1, r2) -> { 
+			return (r1, r2) -> {   
 			};
 		}
 		StringBuilder uri_sb = new StringBuilder(req.getRequestURI());
