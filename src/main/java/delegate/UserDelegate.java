@@ -10,8 +10,9 @@ import utilities.Utility;
 
 public class UserDelegate implements FrontControllerDelegate {
 
+	
  
-	@Override
+	@Override 
 	public void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = (String) req.getAttribute("path");
 		if (path == null || path.equals("")) {

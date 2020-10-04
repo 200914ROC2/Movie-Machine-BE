@@ -76,11 +76,12 @@ public class Utility {
 	}
 	
 	public static void PrintJson(HttpServletResponse resp, String message) {
-		JSONObject obj = new JSONObject();	 	
-		obj.put("message", message);
-		obj.toString();
-		PrintWriter out;
+		
 		try {
+			JSONObject obj = new JSONObject();	 	
+			obj.put("message", message);
+			obj.toString();
+			PrintWriter out;
 			out = resp.getWriter();
 			resp.setContentType("application/json");
 			resp.setCharacterEncoding("UTF-8");
@@ -89,7 +90,6 @@ public class Utility {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/*
@@ -124,7 +124,7 @@ public class Utility {
 			byte[] securePassword = fac.generateSecret(spec).getEncoded();
 			return Optional.of(Base64.getEncoder().encodeToString(securePassword));
 
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {  
 			System.err.println("Exception encountered in hashPassword()");
 			return Optional.empty();
 
