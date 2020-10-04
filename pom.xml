@@ -65,6 +65,7 @@
 
 	</dependencies>
 	<build>
+	 	<finalName>movie-machine-be</finalName> 
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
