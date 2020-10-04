@@ -9,7 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONObject; 
+ 
 
 
 import delegate.FrontControllerDelegate; 
@@ -28,8 +28,11 @@ public class RequestHandler {
 			throws ServletException, IOException {
 
 		if ("OPTIONS".equals(req.getMethod())) {
-			return (r1, r2) -> {   
-			};
+			return new FrontControllerDelegate() {
+				public void process(HttpServletRequest r1, HttpServletResponse r2)
+						throws ServletException, IOException {   
+						}
+			};  
 		}
 		StringBuilder uri_sb = new StringBuilder(req.getRequestURI());
 	
