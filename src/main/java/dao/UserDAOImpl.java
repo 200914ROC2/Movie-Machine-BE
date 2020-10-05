@@ -16,13 +16,13 @@ public class UserDAOImpl implements UserDAO {
 		
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = "insert into users values (default, ?, ?, ?)";
-			String[] keys = {"id"};
+			String sql = "insert into users values (default, ?, ?, ?, ?)";
+			String[] keys = {"user_id"};
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
 			pstmt.setString(1, u.getUsername());
 			pstmt.setString(2, u.getPassword());
-			pstmt.setString(3, u.getFirstName());
-			pstmt.setString(4, u.getLastName());
+			pstmt.setString(3, u.getFirstname()); 
+			pstmt.setString(4, u.getLastname());
 			
 			pstmt.executeUpdate();
 			ResultSet rs = pstmt.getGeneratedKeys();
@@ -62,6 +62,12 @@ public class UserDAOImpl implements UserDAO {
 	public void deleteUser(User u) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public User getUserByUserName(String username) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 
