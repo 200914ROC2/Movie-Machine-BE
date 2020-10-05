@@ -134,7 +134,7 @@ public class Utility {
 	}
 
 	public static boolean verifyPassword(String password, String key) {
-		Optional<String> optEncrypted = hashPassword(password);
+		Optional<String> optEncrypted = hashPassword(password);  
 		if (!optEncrypted.isPresent())
 			return false;
 		return optEncrypted.get().equals(key);
