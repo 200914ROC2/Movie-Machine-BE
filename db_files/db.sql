@@ -15,19 +15,8 @@ CREATE TABLE favorite(
 
 
 insert into users values (DEFAULT,'user1','123456','Deanna','Warren');
-insert into users values (DEFAULT,'user2','123456','Brooke','Barrett');  
+insert into users values (DEFAULT,'user2','123456','Brooke','Barrett');   
 
-
-select main.uid, main.username, main.firstname, main.lastname, movie_id from 
-	(select
-		u.user_id as uid, u.username as username, u.firstname as firstname, u.lastname  as lastname, f.movie_id as movie_id
-		from users u
-		left join favorite f
-		on u.user_id = f.user_id 
-	) as main where main.uid = 1
-	
-	
-	select * from users u where u.user_id = 1; 
 
 
 

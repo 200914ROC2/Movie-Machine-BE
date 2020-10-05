@@ -112,18 +112,7 @@ public class UserDAOImpl implements UserDAO {
 				user.setUsername(rs.getString("username"));
 				user.setFirstname(rs.getString("firstname"));
 				user.setLastname(rs.getString("lastname"));			
-				user.setPassword_hash(rs.getString("password")); 
-
-//				Set<Favorite> setFavorites = new HashSet<Favorite>(); 
-//				ResultSet rs2 = pstmt.executeQuery();
-//
-//				while (rs2.next()) {
-// 
-//					Favorite favorite = new Favorite();
-//					favorite.setAccount_id(rs2.getInt("favorite_id"));
-//									
-//				}
-//				user.setFavorites(setFavorites);
+				user.setPassword_hash(rs.getString("password"));   
 				
 			} else {
 				return null;
