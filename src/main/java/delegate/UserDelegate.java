@@ -113,9 +113,10 @@ public class UserDelegate implements FrontControllerDelegate {
 						Utility util = new Utility();
 						String newPasswordHash = util.hashPassword(newUser.getPassword()).get(); 
 						newUser.setPassword_hash(newPasswordHash);
-						int isSuccess = uServ.registerUser(newUser);
-						if (isSuccess != 0) {
+						int user_id = uServ.registerUser(newUser);
+						if (user_id != 0) {
 							response.setStatus(HttpServletResponse.SC_CREATED);
+							newUser.setId(user_id); 
 							response.getWriter().write(om.writeValueAsString(newUser));
 						} else {
 							response.setStatus(400);
