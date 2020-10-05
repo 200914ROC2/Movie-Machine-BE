@@ -95,8 +95,27 @@ public class UserDelegate implements FrontControllerDelegate {
 
 	}
 
-	private void logIn(HttpServletRequest req, HttpServletResponse resp) {
-		Utility.PrintJson(resp, "logIn");
+	private void logIn(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		User loginUser = null;
+		loginUser = om.readValue(req.getInputStream(), User.class);
+		String username = loginUser.getUsername();
+		String password = loginUser.getPassword();
+		User u = uServ.getUserByUserName(username);
+		System.out.println("PASSWORD: " + password); 
+		if (u != null) {
+			if (u.checkPassword(password)) {	 
+				u.setPassword_hash(""); 
+				u.setPassword("");   
+				req.getSession().setAttribute("user", u);
+				resp.getWriter().write(om.writeValueAsString(u)); 
+			} else {
+				resp.setStatus(404);
+				Utility.PrintJson(resp, "Incorrect password.");
+			}
+		} else {
+			resp.setStatus(404);
+			Utility.PrintJson(resp, "No user found with that username.");
+		}
 	}
 
 	private void register(HttpServletRequest request, HttpServletResponse response) {
@@ -117,6 +136,8 @@ public class UserDelegate implements FrontControllerDelegate {
 						if (user_id != 0) {
 							response.setStatus(HttpServletResponse.SC_CREATED);
 							newUser.setId(user_id); 
+							newUser.setPassword_hash(null); 
+							newUser.setPassword(null); 
 							response.getWriter().write(om.writeValueAsString(newUser));
 						} else {
 							response.setStatus(400);

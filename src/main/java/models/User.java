@@ -6,7 +6,7 @@ public class User {
 	private Integer id;
 	private String username;
 	private String password;
-	private String password_hash; 
+	private String passwordHash; 
 	private String firstname;
 	private String lastname;
 
@@ -42,17 +42,17 @@ public class User {
 		this.password = password; 
 	}
 	
-	public String getPassword_hash() {		
-		return password_hash;
+	public String getPasswordHash() {		
+		return passwordHash;
 	}
 
 	public Boolean checkPassword(String passwordToHash) {
 		Utility util = new Utility();
-		return util.verifyPassword(passwordToHash, getPassword_hash());
+		return util.verifyPassword(passwordToHash, getPasswordHash());
 	}
 
 	public void setPassword_hash(String password_hash) {  
-		this.password_hash = password_hash;
+		this.passwordHash = password_hash;
 	}
 
 	public String getFirstname() {

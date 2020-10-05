@@ -15,7 +15,8 @@ CREATE TABLE favorite(
 
 
 insert into users values (DEFAULT,'user1','123456','Deanna','Warren');
-insert into users values (DEFAULT,'user2','123456','Brooke','Barrett');  
+insert into users values (DEFAULT,'user2','123456','Brooke','Barrett');   
+
 
 
 
