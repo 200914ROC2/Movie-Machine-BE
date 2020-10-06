@@ -135,6 +135,7 @@ public class UserDelegate implements FrontControllerDelegate {
 						int user_id = uServ.registerUser(newUser);
 						if (user_id != 0) {
 							response.setStatus(HttpServletResponse.SC_CREATED);
+							response.setHeader("Access-Control-Allow-Origin", "*");   
 							newUser.setId(user_id); 
 							newUser.setPassword_hash(null); 
 							newUser.setPassword(null); 
