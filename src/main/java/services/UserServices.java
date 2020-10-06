@@ -22,6 +22,10 @@ public class UserServices {
 		return userDao.getUserByUserName(username); 
 	} 	
 	
+	public Integer saveFavorite(Integer uid, Integer mid) {
+		return userDao.saveFavorite(uid, mid);
+	}
+	
 	public boolean sessionVerify(HttpServletRequest req) {
 
 		User user = null;

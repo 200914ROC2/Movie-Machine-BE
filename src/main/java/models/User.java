@@ -51,8 +51,8 @@ public class User {
 		return util.verifyPassword(passwordToHash, getPasswordHash());
 	}
 
-	public void setPassword_hash(String password_hash) {  
-		this.passwordHash = password_hash;
+	public void setPasswordHash(String passwordHash) {  
+		this.passwordHash = passwordHash;
 	}
 
 	public String getFirstname() {

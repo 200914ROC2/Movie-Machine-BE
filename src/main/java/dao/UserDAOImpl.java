@@ -49,6 +49,36 @@ public class UserDAOImpl implements UserDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public Integer saveFavorite(Integer uid, Integer mid) {
+		Integer id = null;
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = "insert into favorite values (?, ?)";
+			String[] keys = {"user_id", "movie_id"};
+			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
+			
+			pstmt.setInt(1, uid);
+			pstmt.setInt(2, mid);
+			
+			pstmt.executeUpdate();
+			
+			ResultSet rs = pstmt.getGeneratedKeys();
+			System.out.println(rs);
+			if (rs.next()) {
+				id = rs.getInt(2);
+				System.out.println(rs.getInt(2));
+				conn.commit();
+			} else {
+				System.out.println("Rolling back commit");
+				conn.rollback();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
 
 	@Override
 	public User getUserByUserNameAndPassword(String username, String password) {
@@ -112,7 +142,7 @@ public class UserDAOImpl implements UserDAO {
 				user.setUsername(rs.getString("username"));
 				user.setFirstname(rs.getString("firstname"));
 				user.setLastname(rs.getString("lastname"));			
-				user.setPassword_hash(rs.getString("password"));   
+				user.setPasswordHash(rs.getString("password"));   
 				
 			} else {
 				return null;

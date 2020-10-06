@@ -33,7 +33,9 @@ public class UserDelegate implements FrontControllerDelegate {
 
 		else if (path.contains("favorite")) {
 			if ("POST".equals(req.getMethod())) {
-				getFavorite(req, resp);
+				System.out.println("----- LYO Path --------");
+				System.out.println(path);
+				saveFavorite(req, resp);
 			} else
 				Utility.PrintJson(resp, "register Invalid Credentials");
 		}
@@ -89,6 +91,16 @@ public class UserDelegate implements FrontControllerDelegate {
 			break;
 		}
 	}
+	
+	private void saveFavorite(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		Integer uid = Integer.valueOf(req.getParameter("userId"));
+		Integer mid = Integer.valueOf(req.getParameter("movieId"));
+		Integer savedId = uServ.saveFavorite(uid, mid);
+		if (savedId != null) {
+			resp.setStatus(HttpServletResponse.SC_CREATED);
+			resp.getWriter().write(savedId);
+		}
+	}
 
 	private void getFavorite(HttpServletRequest req, HttpServletResponse resp) {
 		Utility.PrintJson(resp, "Get Favorite");
@@ -104,7 +116,7 @@ public class UserDelegate implements FrontControllerDelegate {
 		System.out.println("PASSWORD: " + password); 
 		if (u != null) {
 			if (u.checkPassword(password)) {	 
-				u.setPassword_hash(""); 
+				u.setPasswordHash(""); 
 				u.setPassword("");   
 				req.getSession().setAttribute("user", u);
 				resp.getWriter().write(om.writeValueAsString(u)); 
@@ -131,12 +143,12 @@ public class UserDelegate implements FrontControllerDelegate {
 					} else {
 						Utility util = new Utility();
 						String newPasswordHash = util.hashPassword(newUser.getPassword()).get(); 
-						newUser.setPassword_hash(newPasswordHash);
+						newUser.setPasswordHash(newPasswordHash);
 						int user_id = uServ.registerUser(newUser);
 						if (user_id != 0) {
 							response.setStatus(HttpServletResponse.SC_CREATED);
 							newUser.setId(user_id); 
-							newUser.setPassword_hash(null); 
+							newUser.setPasswordHash(null); 
 							newUser.setPassword(null); 
 							response.getWriter().write(om.writeValueAsString(newUser));
 						} else {
