@@ -2,11 +2,13 @@ package delegate;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.UserDAOImpl;
@@ -33,8 +35,12 @@ public class UserDelegate implements FrontControllerDelegate {
 
 		else if (path.contains("favorite")) {
 			if ("POST".equals(req.getMethod())) {
-				getFavorite(req, resp);
-			} else
+				saveFavorite(req, resp);
+			}
+			else if ("GET".equals(req.getMethod())) {
+				getFavorites(req, resp);
+			}
+			else
 				Utility.PrintJson(resp, "register Invalid Credentials");
 		}
 
@@ -89,10 +95,29 @@ public class UserDelegate implements FrontControllerDelegate {
 			break;
 		}
 	}
+	
+	private void saveFavorite(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		Integer uid = Integer.valueOf(req.getParameter("userId"));
+		Integer mid = Integer.valueOf(req.getParameter("movieId"));
+		Integer savedId = uServ.saveFavorite(uid, mid);
+		if (savedId != null) {
+			resp.setStatus(HttpServletResponse.SC_CREATED);
+			resp.getWriter().write(savedId);
+		} else {
+			resp.setStatus(404);
+			Utility.PrintJson(resp, "Could not add to favorites.");
+		}
+	}
 
-	private void getFavorite(HttpServletRequest req, HttpServletResponse resp) {
-		Utility.PrintJson(resp, "Get Favorite");
-
+	private void getFavorites(HttpServletRequest req, HttpServletResponse resp) throws JsonProcessingException, IOException {
+		Integer uid = Integer.valueOf(req.getParameter("userId"));
+		Set<Integer> favorites = uServ.getFavoritesByUserId(uid);
+		if (favorites != null) {
+			resp.setStatus(200);
+			resp.getWriter().write(om.writeValueAsString(favorites));
+		} else {
+			Utility.PrintJson(resp, "Could not retrive favorites for user with id "+ uid);
+		}
 	}
 
 	private void logIn(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -104,7 +129,7 @@ public class UserDelegate implements FrontControllerDelegate {
 		System.out.println("PASSWORD: " + password); 
 		if (u != null) {
 			if (u.checkPassword(password)) {	 
-				u.setPassword_hash(""); 
+				u.setPasswordHash(""); 
 				u.setPassword("");   
 				req.getSession().setAttribute("user", u);
 				resp.getWriter().write(om.writeValueAsString(u)); 
@@ -131,13 +156,13 @@ public class UserDelegate implements FrontControllerDelegate {
 					} else {
 						Utility util = new Utility();
 						String newPasswordHash = util.hashPassword(newUser.getPassword()).get(); 
-						newUser.setPassword_hash(newPasswordHash);
+						newUser.setPasswordHash(newPasswordHash);
 						int user_id = uServ.registerUser(newUser);
 						if (user_id != 0) {
 							response.setStatus(HttpServletResponse.SC_CREATED);
 							response.setHeader("Access-Control-Allow-Origin", "*");   
 							newUser.setId(user_id); 
-							newUser.setPassword_hash(null); 
+							newUser.setPasswordHash(null); 
 							newUser.setPassword(null); 
 							response.getWriter().write(om.writeValueAsString(newUser));
 						} else {
