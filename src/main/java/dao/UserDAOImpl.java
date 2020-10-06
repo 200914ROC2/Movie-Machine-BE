@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -67,8 +68,8 @@ public class UserDAOImpl implements UserDAO {
 			ResultSet rs = pstmt.getGeneratedKeys();
 			System.out.println(rs);
 			if (rs.next()) {
-				id = rs.getInt(2);
-				System.out.println(rs.getInt(2));
+				id = rs.getInt("movie_id");
+				System.out.println(rs.getInt("movie_id"));
 				conn.commit();
 			} else {
 				System.out.println("Rolling back commit");
@@ -153,6 +154,29 @@ public class UserDAOImpl implements UserDAO {
 
 		return user;
 
+	}
+
+	@Override
+	public Set<Integer> getFavoritesByUserId(Integer uid) {
+		Set<Integer> userFavorites = null;
+		
+		try(Connection conn = cu.getConnection()) {
+			String sql = "select movie_id from favorite where user_id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, uid);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			userFavorites = new HashSet<>();
+			
+			while (rs.next()) {
+				userFavorites.add(rs.getInt("movie_id"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return userFavorites;
 	}
 	
 
