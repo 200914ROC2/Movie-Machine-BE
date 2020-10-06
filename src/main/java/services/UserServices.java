@@ -4,6 +4,7 @@ package services;
 import javax.servlet.http.HttpServletRequest;
 
 import dao.UserDAO;
+import java.util.Set;
 import models.User;
 
 public class UserServices {
@@ -22,6 +23,14 @@ public class UserServices {
 		return userDao.getUserByUserName(username); 
 	} 	
 	
+	public Integer saveFavorite(Integer uid, Integer mid) {
+		return userDao.saveFavorite(uid, mid);
+	}
+	
+	public Set<Integer> getFavoritesByUserId(Integer uid) {
+		return userDao.getFavoritesByUserId(uid);
+	}
+	
 	public boolean sessionVerify(HttpServletRequest req) {
 
 		User user = null;
@@ -31,5 +40,6 @@ public class UserServices {
 		}
 		return false;
 	}
+
 	
 }
