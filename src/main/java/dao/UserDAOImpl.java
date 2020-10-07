@@ -80,6 +80,34 @@ public class UserDAOImpl implements UserDAO {
 		}
 		return id;
 	}
+	
+	@Override
+	public Integer removeFavorite(Integer uid, Integer mid) {
+		Integer id = null;
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = "delete from favorite where user_id = ? and movie_id = ?";
+			String[] keys = {"user_id", "movie_id"};
+			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
+			
+			pstmt.setInt(1, uid);
+			pstmt.setInt(2, mid);
+			
+			Integer rowsAffected = pstmt.executeUpdate();
+			
+			if (rowsAffected > 0) {
+				id = mid;
+				conn.commit();
+			} else {
+				System.out.println("Rolling back commit");
+				conn.rollback();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// TODO Auto-generated method stub
+		return id;
+	}
 
 	@Override
 	public User getUserByUserNameAndPassword(String username, String password) {

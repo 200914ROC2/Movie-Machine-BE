@@ -27,6 +27,10 @@ public class UserServices {
 		return userDao.saveFavorite(uid, mid);
 	}
 	
+	public Integer removeFavorite(Integer uid, Integer mid) {
+		return userDao.removeFavorite(uid,mid);
+	}
+	
 	public Set<Integer> getFavoritesByUserId(Integer uid) {
 		return userDao.getFavoritesByUserId(uid);
 	}

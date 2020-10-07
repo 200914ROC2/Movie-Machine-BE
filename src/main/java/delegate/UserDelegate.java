@@ -40,6 +40,9 @@ public class UserDelegate implements FrontControllerDelegate {
 			else if ("GET".equals(req.getMethod())) {
 				getFavorites(req, resp);
 			}
+			else if ("DELETE".equals(req.getMethod())) {
+				removeFavorite(req,resp);
+			}
 			else
 				Utility.PrintJson(resp, "register Invalid Credentials");
 		}
@@ -102,10 +105,25 @@ public class UserDelegate implements FrontControllerDelegate {
 		Integer savedId = uServ.saveFavorite(uid, mid);
 		if (savedId != null) {
 			resp.setStatus(HttpServletResponse.SC_CREATED);
+			resp.setHeader("Access-Control-Allow-Origin", "*");   
 			resp.getWriter().write(savedId);
 		} else {
 			resp.setStatus(404);
 			Utility.PrintJson(resp, "Could not add to favorites.");
+		}
+	}
+	
+	private void removeFavorite(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		Integer uid = Integer.valueOf(req.getParameter("userId"));
+		Integer mid = Integer.valueOf(req.getParameter("movieId"));
+		Integer removedId = uServ.removeFavorite(uid, mid);
+		if (removedId != null) {
+			resp.setStatus(HttpServletResponse.SC_CREATED);
+			resp.setHeader("Access-Control-Allow-Origin", "*");   
+			resp.getWriter().write("Removed " + removedId + " for " + uid + ".");
+		} else {
+			resp.setStatus(404);
+			Utility.PrintJson(resp, "Could not remove favorite for " + uid + ".");
 		}
 	}
 
@@ -114,6 +132,7 @@ public class UserDelegate implements FrontControllerDelegate {
 		Set<Integer> favorites = uServ.getFavoritesByUserId(uid);
 		if (favorites != null) {
 			resp.setStatus(200);
+			resp.setHeader("Access-Control-Allow-Origin", "*");   
 			resp.getWriter().write(om.writeValueAsString(favorites));
 		} else {
 			Utility.PrintJson(resp, "Could not retrive favorites for user with id "+ uid);
@@ -132,6 +151,7 @@ public class UserDelegate implements FrontControllerDelegate {
 				u.setPasswordHash(""); 
 				u.setPassword("");   
 				req.getSession().setAttribute("user", u);
+				resp.setHeader("Access-Control-Allow-Origin", "*");   
 				resp.getWriter().write(om.writeValueAsString(u)); 
 			} else {
 				resp.setStatus(404);

@@ -9,6 +9,7 @@ public interface UserDAO {
 	public User getUserByUserName(String username); 
 	public User getUserByUserNameAndPassword(String username, String password);
 	public Integer saveFavorite(Integer uid, Integer mid);
+	public Integer removeFavorite(Integer uid, Integer mid);
 	public void updateUser(User u);
 	public void deleteUser(User u);
 	public Set<Integer> getFavoritesByUserId(Integer uid);
