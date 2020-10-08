@@ -103,9 +103,9 @@ public class UserDelegate implements FrontControllerDelegate {
 		Integer uid = Integer.valueOf(req.getParameter("userId"));
 		Integer mid = Integer.valueOf(req.getParameter("movieId"));
 		Integer savedId = uServ.saveFavorite(uid, mid);
+		resp.setHeader("Access-Control-Allow-Origin", req.getHeader("Origin")); 
 		if (savedId != null) {
-			resp.setStatus(HttpServletResponse.SC_CREATED);
-			resp.setHeader("Access-Control-Allow-Origin", "*");   
+			resp.setStatus(HttpServletResponse.SC_CREATED);  
 			resp.getWriter().write(savedId);
 		} else {
 			resp.setStatus(404);
@@ -117,9 +117,9 @@ public class UserDelegate implements FrontControllerDelegate {
 		Integer uid = Integer.valueOf(req.getParameter("userId"));
 		Integer mid = Integer.valueOf(req.getParameter("movieId"));
 		Integer removedId = uServ.removeFavorite(uid, mid);
+		resp.setHeader("Access-Control-Allow-Origin",  req.getHeader("Origin"));  
 		if (removedId != null) {
-			resp.setStatus(HttpServletResponse.SC_CREATED);
-			resp.setHeader("Access-Control-Allow-Origin", "*");   
+			resp.setStatus(200); 
 			resp.getWriter().write("Removed " + removedId + " for " + uid + ".");
 		} else {
 			resp.setStatus(404);
