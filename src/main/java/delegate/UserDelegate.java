@@ -107,7 +107,6 @@ public class UserDelegate implements FrontControllerDelegate {
 		if (savedId != null) {
 			resp.setStatus(HttpServletResponse.SC_CREATED);  
 			Utility.PrintJson(resp, "Saved favorite with id " + mid + " for user id " + uid + ".");
-			resp.getWriter().write(savedId);
 		} else {
 			resp.setStatus(404);
 			Utility.PrintJson(resp, "Could not add to favorites.");
