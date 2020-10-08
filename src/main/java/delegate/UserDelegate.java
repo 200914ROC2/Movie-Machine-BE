@@ -120,7 +120,7 @@ public class UserDelegate implements FrontControllerDelegate {
 		resp.setHeader("Access-Control-Allow-Origin",  req.getHeader("Origin"));  
 		if (removedId != null) {
 			resp.setStatus(200); 
-			resp.getWriter().write("Removed " + removedId + " for " + uid + ".");
+			Utility.PrintJson(resp, "Removed " + removedId + " for " + uid + ".");
 		} else {
 			resp.setStatus(404);
 			Utility.PrintJson(resp, "Could not remove favorite for " + uid + ".");
