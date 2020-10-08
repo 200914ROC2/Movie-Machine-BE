@@ -106,7 +106,7 @@ public class UserDelegate implements FrontControllerDelegate {
 		resp.setHeader("Access-Control-Allow-Origin", req.getHeader("Origin")); 
 		if (savedId != null) {
 			resp.setStatus(HttpServletResponse.SC_CREATED);  
-			resp.getWriter().write(savedId);
+			Utility.PrintJson(resp, "Saved favorite with id " + mid + " for user id " + uid + ".");
 		} else {
 			resp.setStatus(404);
 			Utility.PrintJson(resp, "Could not add to favorites.");
